@@ -71,7 +71,8 @@ font-weight:600;
 color:#f6c453;
 }
 
-input{
+input,
+select{
 
 width:100%;
 padding:18px 20px;
@@ -89,7 +90,8 @@ transition:0.3s;
 
 }
 
-input:focus{
+input:focus,
+select:focus{
 
 background:#17386f;
 
@@ -259,6 +261,30 @@ RUN FOR YOUR LIFE 2026
 
 <div class="card">
 
+<!-- JENIS CHECK-IN -->
+
+<div class="input-group">
+
+<label>
+Jenis Check-In
+</label>
+
+<select id="checkinType">
+
+<option value="rpc">
+🎽 AMBIL RPC
+</option>
+
+<option value="race">
+🏃 RACE DAY
+</option>
+
+</select>
+
+</div>
+
+<!-- INPUT -->
+
 <div class="input-group">
 
 <label>
@@ -268,17 +294,21 @@ Register ID atau Nomor BIB
 <input
 type="text"
 id="inputCheckin"
-placeholder="Contoh : RFYL26-5K-M0001 atau M 5001"
+placeholder="Contoh : RFYL26-5K-M0001 atau F 3003"
 autocomplete="off"
 >
 
 </div>
+
+<!-- BUTTON -->
 
 <button onclick="checkinPeserta()">
 
 ✅ CHECK-IN SEKARANG
 
 </button>
+
+<!-- LOADING -->
 
 <div
 class="loading"
@@ -289,6 +319,8 @@ id="loading"
 
 </div>
 
+<!-- RESULT -->
+
 <div
 class="result"
 id="resultBox"
@@ -298,9 +330,13 @@ id="resultBox"
 
 </div>
 
+<!-- FOOTER -->
+
 <div class="footer">
 
-Pastikan Register ID atau Nomor BIB benar sebelum melakukan check-in.
+Peserta dapat melakukan check-in maksimal 2x :
+<br>
+1x Ambil RPC & 1x Race Day
 
 </div>
 
@@ -323,7 +359,7 @@ const WEBAPP_URL =
 
 const successSound =
 new Audio(
-"https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"
+"https://actions.google.com/sounds/v1/cartoon/pop.ogg"
 );
 
 const warningSound =
@@ -378,8 +414,14 @@ document.getElementById("inputCheckin")
 .value
 .trim();
 
+const checkinType =
+
+document.getElementById("checkinType")
+.value;
+
 if(!input){
 
+warningSound.currentTime = 0;
 warningSound.play();
 
 alert(
@@ -411,6 +453,8 @@ body:JSON.stringify({
 
 action:"checkin",
 
+type:checkinType,
+
 registerId:input,
 
 bib:input
@@ -426,21 +470,22 @@ document.getElementById("loading")
 .style.display = "none";
 
 // ====================================
-// SUCCESS
+// SUCCESS RPC
 // ====================================
 
-if(res.status == "success"){
+if(res.status == "success_rpc"){
 
+successSound.currentTime = 0;
 successSound.play();
 
 showResult(
 "success",
 `
 
-<h2>✅ CHECK-IN BERHASIL</h2>
+<h2>🎽 PESERTA SUDAH AMBIL RPC</h2>
 
 <div class="badge badge-success">
-PESERTA VALID
+RPC BERHASIL
 </div>
 
 <div class="info">
@@ -465,18 +510,96 @@ ${res.registerId}
 }
 
 // ====================================
-// ALREADY
+// SUCCESS RACE
 // ====================================
 
-else if(res.status == "already"){
+else if(res.status == "success_race"){
 
+successSound.currentTime = 0;
+successSound.play();
+
+showResult(
+"success",
+`
+
+<h2>🏃 PESERTA BERHASIL CHECK-IN RACE</h2>
+
+<div class="badge badge-success">
+CHECK-IN BERHASIL
+</div>
+
+<div class="info">
+
+<b>Nama :</b>
+${res.nama}<br>
+
+<b>BIB :</b>
+${res.bib}<br>
+
+<b>Kategori :</b>
+${res.kategori}<br>
+
+<b>Register ID :</b>
+${res.registerId}
+
+</div>
+
+`
+);
+
+}
+
+// ====================================
+// ALREADY RPC
+// ====================================
+
+else if(res.status == "already_rpc"){
+
+warningSound.currentTime = 0;
 warningSound.play();
 
 showResult(
 "warning",
 `
 
-<h2>⚠️ SUDAH CHECK-IN</h2>
+<h2>⚠️ PESERTA SUDAH AMBIL RPC</h2>
+
+<div class="badge badge-warning">
+RPC SUDAH TERAMBIL
+</div>
+
+<div class="info">
+
+<b>Nama :</b>
+${res.nama}<br>
+
+<b>BIB :</b>
+${res.bib}<br>
+
+<b>Register ID :</b>
+${res.registerId}
+
+</div>
+
+`
+);
+
+}
+
+// ====================================
+// ALREADY RACE
+// ====================================
+
+else if(res.status == "already_race"){
+
+warningSound.currentTime = 0;
+warningSound.play();
+
+showResult(
+"warning",
+`
+
+<h2>⚠️ PESERTA SUDAH CHECK-IN RACE</h2>
 
 <div class="badge badge-warning">
 DOUBLE CHECK-IN
@@ -506,6 +629,7 @@ ${res.registerId}
 
 else{
 
+warningSound.currentTime = 0;
 warningSound.play();
 
 showResult(
@@ -535,6 +659,7 @@ Periksa kembali Register ID atau Nomor BIB.
 document.getElementById("loading")
 .style.display = "none";
 
+warningSound.currentTime = 0;
 warningSound.play();
 
 showResult(
