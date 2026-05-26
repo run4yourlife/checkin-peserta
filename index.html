@@ -5,11 +5,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SCAN CHECK-IN PESERTA</title>
+<title>CHECK-IN PESERTA</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
 
 <style>
 
@@ -24,11 +24,15 @@ body{
 background:#06152d;
 color:white;
 padding:20px;
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
 .container{
-max-width:650px;
-margin:auto;
+width:100%;
+max-width:600px;
 }
 
 .header{
@@ -37,35 +41,72 @@ margin-bottom:25px;
 }
 
 .header h1{
-font-size:30px;
+font-size:32px;
 color:#f6c453;
 margin-bottom:10px;
+font-weight:700;
 }
 
 .header p{
-color:#ccc;
-font-size:14px;
+color:#d6d6d6;
+font-size:15px;
 }
 
 .card{
 background:#0d2347;
-border-radius:24px;
-padding:20px;
-box-shadow:0 0 35px rgba(0,0,0,0.35);
+border-radius:28px;
+padding:28px;
+box-shadow:0 0 40px rgba(0,0,0,0.35);
 }
 
-#reader{
+.input-group{
+margin-bottom:20px;
+}
+
+label{
+display:block;
+margin-bottom:10px;
+font-size:15px;
+font-weight:600;
+color:#f6c453;
+}
+
+input{
+
 width:100%;
+padding:18px 20px;
+
+border:none;
 border-radius:18px;
-overflow:hidden;
-display:none;
-margin-top:20px;
+
+background:#132f5e;
+color:white;
+
+font-size:16px;
+outline:none;
+
+transition:0.3s;
+
 }
 
-.start-btn{
+input:focus{
+
+background:#17386f;
+
+box-shadow:
+0 0 0 3px rgba(246,196,83,0.25);
+
+}
+
+input::placeholder{
+color:#9db0d3;
+}
+
+button{
 
 width:100%;
 padding:18px;
+
 border:none;
 border-radius:18px;
 
@@ -81,23 +122,30 @@ transition:0.3s;
 
 }
 
-.start-btn:hover{
-transform:scale(1.02);
+button:hover{
+transform:scale(1.01);
+}
+
+button:active{
+transform:scale(0.99);
 }
 
 .loading{
 display:none;
-margin-top:20px;
+margin-top:22px;
 text-align:center;
 color:#f6c453;
+font-size:15px;
+font-weight:500;
 }
 
 .result{
 display:none;
-margin-top:20px;
-padding:20px;
-border-radius:18px;
+margin-top:22px;
+padding:22px;
+border-radius:20px;
 line-height:2;
+animation:fadeIn 0.3s ease;
 }
 
 .success{
@@ -117,7 +165,7 @@ border:2px solid #ff4d4d;
 
 .badge{
 display:inline-block;
-padding:7px 14px;
+padding:8px 16px;
 border-radius:999px;
 font-size:13px;
 font-weight:700;
@@ -134,45 +182,59 @@ background:#ffb300;
 color:#06152d;
 }
 
+.badge-error{
+background:#ff4d4d;
+color:white;
+}
+
 .info{
-margin-top:15px;
+margin-top:18px;
 line-height:2;
+font-size:15px;
 }
 
-.stats{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-margin-top:20px;
-}
-
-.stat-box{
-background:#132f5e;
-padding:18px;
-border-radius:18px;
-text-align:center;
-}
-
-.stat-box h3{
-font-size:14px;
-color:#ccc;
-margin-bottom:10px;
-}
-
-.stat-box p{
-font-size:28px;
-font-weight:700;
+.info b{
 color:#f6c453;
+}
+
+.footer{
+margin-top:25px;
+text-align:center;
+font-size:13px;
+color:#9db0d3;
+line-height:1.8;
+}
+
+@keyframes fadeIn{
+
+from{
+opacity:0;
+transform:translateY(10px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
 }
 
 @media(max-width:768px){
 
-.header h1{
-font-size:24px;
+body{
+padding:15px;
 }
 
-.stats{
-grid-template-columns:1fr;
+.header h1{
+font-size:26px;
+}
+
+.card{
+padding:22px;
+}
+
+button{
+font-size:16px;
 }
 
 }
@@ -187,7 +249,7 @@ grid-template-columns:1fr;
 
 <div class="header">
 
-<h1>🏃 SCAN CHECK-IN</h1>
+<h1>🏃 CHECK-IN PESERTA</h1>
 
 <p>
 RUN FOR YOUR LIFE 2026
@@ -197,37 +259,48 @@ RUN FOR YOUR LIFE 2026
 
 <div class="card">
 
-<button
-class="start-btn"
-onclick="mulaiScanner()"
-id="startBtn"
+<div class="input-group">
+
+<label>
+Register ID atau Nomor BIB
+</label>
+
+<input
+type="text"
+id="inputCheckin"
+placeholder="Contoh : RFYL26-5K-M0001 atau M 5001"
+autocomplete="off"
 >
 
-📷 MULAI SCANNER QR
+</div>
+
+<button onclick="checkinPeserta()">
+
+✅ CHECK-IN SEKARANG
 
 </button>
 
-<div id="reader"></div>
+<div
+class="loading"
+id="loading"
+>
 
-<div class="loading" id="loading">
 ⏳ Memproses check-in peserta...
+
 </div>
 
-<div class="result" id="resultBox">
+<div
+class="result"
+id="resultBox"
+>
+
 <div id="resultContent"></div>
+
 </div>
 
-<div class="stats">
+<div class="footer">
 
-<div class="stat-box">
-<h3>Total Check-In</h3>
-<p id="totalCheckin">0</p>
-</div>
-
-<div class="stat-box">
-<h3>Status Scanner</h3>
-<p id="scannerStatus">SIAP</p>
-</div>
+Pastikan Register ID atau Nomor BIB benar sebelum melakukan check-in.
 
 </div>
 
@@ -259,29 +332,26 @@ new Audio(
 );
 
 // ======================================
-// GLOBAL
+// ENTER SUBMIT
 // ======================================
 
-let totalCheckin = 0;
-let html5QrCode;
-let scannerActive = false;
+document
+.getElementById("inputCheckin")
+.addEventListener("keypress",function(e){
 
-// ======================================
-// UPDATE TOTAL
-// ======================================
+if(e.key === "Enter"){
 
-function updateTotal(){
-
-document.getElementById("totalCheckin")
-.innerText = totalCheckin;
+checkinPeserta();
 
 }
+
+});
 
 // ======================================
 // SHOW RESULT
 // ======================================
 
-function showResult(type, html){
+function showResult(type,html){
 
 const box =
 document.getElementById("resultBox");
@@ -297,121 +367,34 @@ document.getElementById("resultContent")
 }
 
 // ======================================
-// START SCANNER
+// CHECK-IN
 // ======================================
 
-async function mulaiScanner(){
+async function checkinPeserta(){
 
-try{
+const input =
 
-document.getElementById("reader")
-.style.display = "block";
+document.getElementById("inputCheckin")
+.value
+.trim();
 
-document.getElementById("startBtn")
-.style.display = "none";
-
-document.getElementById("scannerStatus")
-.innerText = "AKTIF";
-
-html5QrCode =
-new Html5Qrcode("reader");
-
-await html5QrCode.start(
-
-{
-facingMode:"environment"
-},
-
-{
-fps:10,
-qrbox:{
-width:250,
-height:250
-}
-},
-
-onScanSuccess
-
-);
-
-scannerActive = true;
-
-}catch(err){
-
-alert(
-"Gagal membuka kamera:\n\n" +
-err
-);
-
-document.getElementById("scannerStatus")
-.innerText = "ERROR";
-
-}
-
-}
-
-// ======================================
-// STOP SCANNER
-// ======================================
-
-async function stopScanner(){
-
-if(scannerActive){
-
-await html5QrCode.stop();
-
-await html5QrCode.clear();
-
-scannerActive = false;
-
-}
-
-}
-
-// ======================================
-// SUCCESS SCAN
-// ======================================
-
-async function onScanSuccess(decodedText){
-
-await stopScanner();
-
-document.getElementById("loading")
-.style.display = "block";
-
-// ======================================
-// PARSE QR
-// ======================================
-
-const parts =
-decodedText.split("|");
-
-if(parts.length < 2){
-
-document.getElementById("loading")
-.style.display = "none";
+if(!input){
 
 warningSound.play();
 
-showResult(
-"error",
-`
-<h2>❌ QR TIDAK VALID</h2>
-
-<div class="info">
-QR tidak dikenali
-</div>
-`
+alert(
+"Masukkan Register ID atau Nomor BIB"
 );
-
-resetScanner();
 
 return;
 
 }
 
-const registerId =
-parts[1];
+document.getElementById("loading")
+.style.display = "block";
+
+document.getElementById("resultBox")
+.style.display = "none";
 
 try{
 
@@ -427,7 +410,10 @@ headers:{
 body:JSON.stringify({
 
 action:"checkin",
-registerId:registerId
+
+registerId:input,
+
+bib:input
 
 })
 
@@ -439,17 +425,13 @@ await response.json();
 document.getElementById("loading")
 .style.display = "none";
 
-// ======================================
+// ====================================
 // SUCCESS
-// ======================================
+// ====================================
 
 if(res.status == "success"){
 
 successSound.play();
-
-totalCheckin++;
-
-updateTotal();
 
 showResult(
 "success",
@@ -473,7 +455,7 @@ ${res.bib}<br>
 ${res.kategori}<br>
 
 <b>Register ID :</b>
-${registerId}
+${res.registerId}
 
 </div>
 
@@ -482,9 +464,9 @@ ${registerId}
 
 }
 
-// ======================================
+// ====================================
 // ALREADY
-// ======================================
+// ====================================
 
 else if(res.status == "already"){
 
@@ -497,7 +479,7 @@ showResult(
 <h2>⚠️ SUDAH CHECK-IN</h2>
 
 <div class="badge badge-warning">
-DOUBLE SCAN
+DOUBLE CHECK-IN
 </div>
 
 <div class="info">
@@ -506,7 +488,10 @@ DOUBLE SCAN
 ${res.nama}<br>
 
 <b>BIB :</b>
-${res.bib}
+${res.bib}<br>
+
+<b>Register ID :</b>
+${res.registerId}
 
 </div>
 
@@ -515,9 +500,9 @@ ${res.bib}
 
 }
 
-// ======================================
+// ====================================
 // NOT FOUND
-// ======================================
+// ====================================
 
 else{
 
@@ -529,10 +514,14 @@ showResult(
 
 <h2>❌ DATA TIDAK DITEMUKAN</h2>
 
+<div class="badge badge-error">
+PESERTA TIDAK VALID
+</div>
+
 <div class="info">
 
-Register ID :
-${registerId}
+Data peserta tidak ditemukan.<br>
+Periksa kembali Register ID atau Nomor BIB.
 
 </div>
 
@@ -554,6 +543,10 @@ showResult(
 
 <h2>❌ ERROR</h2>
 
+<div class="badge badge-error">
+TERJADI KESALAHAN
+</div>
+
 <div class="info">
 
 ${err.message}
@@ -564,29 +557,6 @@ ${err.message}
 );
 
 }
-
-resetScanner();
-
-}
-
-// ======================================
-// RESET SCANNER
-// ======================================
-
-function resetScanner(){
-
-setTimeout(()=>{
-
-document.getElementById("reader")
-.style.display = "none";
-
-document.getElementById("startBtn")
-.style.display = "block";
-
-document.getElementById("scannerStatus")
-.innerText = "SIAP";
-
-},3000);
 
 }
 
