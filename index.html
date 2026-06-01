@@ -493,14 +493,17 @@ RPC BERHASIL
 <b>Nama :</b>
 ${res.nama}<br>
 
+<b>Register ID :</b>
+${res.registerId}<br>
+
 <b>BIB :</b>
 ${res.bib}<br>
 
 <b>Kategori :</b>
 ${res.kategori}<br>
 
-<b>Register ID :</b>
-${res.registerId}
+<b>Jersey Size :</b>
+${res.jersey}
 
 </div>
 
@@ -573,11 +576,18 @@ RPC SUDAH TERAMBIL
 <b>Nama :</b>
 ${res.nama}<br>
 
+<b>Register ID :</b>
+${res.registerId}<br>
+
 <b>BIB :</b>
 ${res.bib}<br>
 
-<b>Register ID :</b>
-${res.registerId}
+<b>Kategori :</b>
+${res.kategori}<br>
+
+<b>Jersey Size :</b>
+${res.jersey}
+
 
 </div>
 
@@ -599,10 +609,10 @@ showResult(
 "warning",
 `
 
-<h2>⚠️ PESERTA SUDAH CHECK-IN RACE</h2>
+<h2>🎽 PESERTA SUDAH AMBIL RPC</h2>
 
-<div class="badge badge-warning">
-DOUBLE CHECK-IN
+<div class="badge badge-success">
+RPC BERHASIL
 </div>
 
 <div class="info">
@@ -612,6 +622,12 @@ ${res.nama}<br>
 
 <b>BIB :</b>
 ${res.bib}<br>
+
+<b>Kategori :</b>
+${res.kategori}<br>
+
+<b>Jersey Size :</b>
+${res.jersey}<br>
 
 <b>Register ID :</b>
 ${res.registerId}
